@@ -8,21 +8,34 @@ public class BruteCollinearPoints {
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points)
     {
-        segs = new ArrayList<LineSegment>();
-
+        //Validate input array
         if (points == null)
             throw new NullPointerException();
+
+        Arrays.sort(points);
+
+        //Make sure the first element is not null
+        if (points[0] == null)
+            throw new NullPointerException();
+
+        for (int i = 1; i < points.length; i++)
+        {
+            if (points[i] == null)
+                throw new NullPointerException();
+
+            if (points[i] == points[i-1])
+                throw new IllegalArgumentException();
+        }
+
+        /* The input checks out
+            Start processing
+         */
+        segs = new ArrayList<LineSegment>();
 
         int length = points.length;
         int iLength = length - 3;
         int jLength = length - 2;
         int kLength = length - 1;
-
-        for (int i = 0; i < length; i++)
-        {
-            if (points[i] == null)
-                throw new NullPointerException();
-        }
 
         for (int i = 0; i < iLength; i++)
         {
