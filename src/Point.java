@@ -98,9 +98,9 @@ public class Point implements Comparable<Point> {
     {
         private Point p = null;
 
-        public SlopeComparator(Point p)
+        public SlopeComparator(final Point p)
         {
-            this.p = p;
+            this.p = new Point(p.x, p.y);
         }
 
         public int compare(Point v, Point w)

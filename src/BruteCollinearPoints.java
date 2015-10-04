@@ -4,26 +4,29 @@ import java.util.Comparator;
 
 public class BruteCollinearPoints {
     private ArrayList<LineSegment> segs = null;
+    private Point[] pts = null;
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points)
     {
+        pts = Arrays.copyOf(points, points.length);
+
         //Validate input array
-        if (points == null)
+        if (pts == null)
             throw new NullPointerException();
 
-        Arrays.sort(points);
+        Arrays.sort(pts);
 
         //Make sure the first element is not null
-        if (points[0] == null)
+        if (pts[0] == null)
             throw new NullPointerException();
 
-        for (int i = 1; i < points.length; i++)
+        for (int i = 1; i < pts.length; i++)
         {
-            if (points[i] == null)
+            if (pts[i] == null)
                 throw new NullPointerException();
 
-            if (points[i] == points[i-1])
+            if (pts[i].compareTo(pts[i-1]) == 0)
                 throw new IllegalArgumentException();
         }
 
@@ -32,25 +35,25 @@ public class BruteCollinearPoints {
          */
         segs = new ArrayList<LineSegment>();
 
-        int length = points.length;
+        int length = pts.length;
         int iLength = length - 3;
         int jLength = length - 2;
         int kLength = length - 1;
 
         for (int i = 0; i < iLength; i++)
         {
-            Point iPoint = points[i];
+            Point iPoint = pts[i];
             Comparator<Point> ptComp = iPoint.slopeOrder();
             jloop:
             for (int j = i+1; j < jLength; j++)
             {
-                Point jPoint = points[j];
+                Point jPoint = pts[j];
                 for (int k = j+1; k < kLength; k++)
                 {
-                    Point kPoint = points[k];
+                    Point kPoint = pts[k];
                     for (int l = k+1; l < length; l++)
                     {
-                        Point lPoint = points[l];
+                        Point lPoint = pts[l];
                         if (ptComp.compare(jPoint, kPoint) == 0 && ptComp.compare(kPoint, lPoint) == 0)
                         {
                             Point[] pointAry = new Point[4];

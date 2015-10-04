@@ -4,25 +4,28 @@ import java.util.Comparator;
 
 public class FastCollinearPoints {
     private ArrayList<LineSegment> segs = null;
+    private Point[] pts = null;
 
     public FastCollinearPoints(Point[] points)
     {
+        pts = Arrays.copyOf(points, points.length);
+
         //Validate input array
-        if (points == null)
+        if (pts == null)
             throw new NullPointerException();
 
-        Arrays.sort(points);
+        Arrays.sort(pts);
 
         //Make sure the first element is not null
-        if (points[0] == null)
+        if (pts[0] == null)
             throw new NullPointerException();
 
-        for (int i = 1; i < points.length; i++)
+        for (int i = 1; i < pts.length; i++)
         {
-            if (points[i] == null)
+            if (pts[i] == null)
                 throw new NullPointerException();
 
-            if (points[i] == points[i-1])
+            if (pts[i].compareTo(pts[i-1]) == 0)
                 throw new IllegalArgumentException();
         }
 
@@ -30,18 +33,18 @@ public class FastCollinearPoints {
             Start processing
          */
         segs = new ArrayList<LineSegment>();
-        int length = points.length;
+        int length = pts.length;
 
         for (int i = 0; i < length; i++)
         {
-            Point origin = points[i];
+            Point origin = pts[i];
             Comparator<Point> ptComp = origin.slopeOrder();
-            Arrays.sort(points, ptComp);
+            Arrays.sort(pts, ptComp);
             int count = 1;
             double currentSlope = Double.NEGATIVE_INFINITY;
             for (int j = 0; j < length; j++)
             {
-                double newSlope = origin.slopeTo(points[j]);
+                double newSlope = origin.slopeTo(pts[j]);
                 if (newSlope == currentSlope)
                     count++;
                 else
@@ -52,7 +55,7 @@ public class FastCollinearPoints {
                         pointAry[0] = origin;
                         int index = 1;
                         for (int k = (j - count); k < j; k++)
-                            pointAry[index++] = points[k];
+                            pointAry[index++] = pts[k];
 
                         Arrays.sort(pointAry);
                         LineSegment newSeg = new LineSegment(pointAry[0], pointAry[count]);
