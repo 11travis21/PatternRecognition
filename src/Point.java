@@ -67,7 +67,7 @@ public class Point implements Comparable<Point> {
         if (this.y == that.y) return 0; //horizontal line
         if (this.x == that.x) return Double.POSITIVE_INFINITY; //vertical line
 
-        return ((double)(that.y - this.y) / (double)(that.x - this.x));
+        return ((double) (that.y - this.y) / (double) (that.x - this.x));
     }
 
     /**
@@ -94,9 +94,9 @@ public class Point implements Comparable<Point> {
         return 0;
     }
 
-    public static class SlopeComparator implements Comparator<Point>
+    private static class SlopeComparator implements Comparator<Point>
     {
-        Point p = null;
+        private Point p = null;
 
         public SlopeComparator(Point p)
         {
@@ -147,7 +147,7 @@ public class Point implements Comparable<Point> {
         Point p3 = new Point(0, 1);
         Point p4 = new Point(1, 2);
 
-        System.out.println(origin.compareTo(origin));
+        //System.out.println(origin.compareTo(origin));
         System.out.println(origin.compareTo(p1));
         System.out.println(origin.compareTo(p2));
         System.out.println(origin.compareTo(p3));

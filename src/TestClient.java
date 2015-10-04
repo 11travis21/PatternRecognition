@@ -32,6 +32,18 @@ public class TestClient
             segment.draw();
         }
 
+        System.out.println();
+
+        // print and draw the line segments
+        FastCollinearPoints fCollinear = new FastCollinearPoints(points);
+        for (LineSegment segment : fCollinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+
+
+        System.out.println();
+        System.out.println("DONE");
     }
 
 }
