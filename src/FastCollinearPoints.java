@@ -9,6 +9,7 @@ public class FastCollinearPoints {
     public FastCollinearPoints(Point[] points)
     {
         pts = Arrays.copyOf(points, points.length);
+        segs = new ArrayList<LineSegment>();
 
         //Validate input array
         if (pts == null)
@@ -32,21 +33,26 @@ public class FastCollinearPoints {
         /* The input checks out
             Start processing
          */
-        segs = new ArrayList<LineSegment>();
         int length = pts.length;
 
         for (int i = 0; i < length; i++)
         {
+            pts = Arrays.copyOf(points, points.length);
             Point origin = pts[i];
             Comparator<Point> ptComp = origin.slopeOrder();
             Arrays.sort(pts, ptComp);
-            int count = 1;
-            double currentSlope = Double.NEGATIVE_INFINITY;
+            int count = 0;
+            double currentSlope = Double.NaN;
             for (int j = 0; j < length; j++)
             {
+                if (pts[j].compareTo(origin) == 0)
+                    continue;
+
                 double newSlope = origin.slopeTo(pts[j]);
                 if (newSlope == currentSlope)
+                {
                     count++;
+                }
                 else
                 {
                     if (count >= 3)
@@ -65,8 +71,28 @@ public class FastCollinearPoints {
                     currentSlope = newSlope;
                 }
             }
+            if (count >= 3)
+            {
+                Point[] pointAry = new Point[count+1];
+                pointAry[0] = origin;
+                int index = 1;
+                for (int k = (length - count); k < length; k++)
+                    pointAry[index++] = pts[k];
+
+                Arrays.sort(pointAry);
+                LineSegment newSeg = new LineSegment(pointAry[0], pointAry[count]);
+                segs.add(newSeg);
+            }
         }
+
         segs.sort(new SegmentationComparator());
+
+        for (int i = segs.size() - 1; i > 0; i--)
+        {
+            if (segs.get(i).toString().equals(segs.get(i - 1).toString()))
+                segs.remove(i);
+        }
+
     }
 
     private static class SegmentationComparator implements Comparator<LineSegment>
@@ -74,6 +100,14 @@ public class FastCollinearPoints {
         public int compare(LineSegment v, LineSegment w)
         {
             return v.toString().compareTo(w.toString());
+        }
+    }
+
+    private static class PointComparator implements Comparator<Point>
+    {
+        public int compare(Point v, Point w)
+        {
+            return v.compareTo(w);
         }
     }
 

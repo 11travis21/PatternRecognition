@@ -29,7 +29,7 @@ public class TestClient
         BruteCollinearPoints collinear = new BruteCollinearPoints(points);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
-            segment.draw();
+            //segment.draw();
         }
 
         System.out.println();
