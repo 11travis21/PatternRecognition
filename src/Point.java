@@ -67,7 +67,7 @@ public class Point implements Comparable<Point> {
         if (this.y == that.y) return 0; //horizontal line
         if (this.x == that.x) return Double.POSITIVE_INFINITY; //vertical line
 
-        return ((that.y - this.y)/(that.x - this.x));
+        return ((double)(that.y - this.y) / (double)(that.x - this.x));
     }
 
     /**
@@ -141,6 +141,37 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+        Point origin = new Point(0, 0);
+        Point p1 = new Point(-1, 0);
+        Point p2 = new Point(1, 0);
+        Point p3 = new Point(0, 1);
+        Point p4 = new Point(1, 2);
+
+        System.out.println(origin.compareTo(origin));
+        System.out.println(origin.compareTo(p1));
+        System.out.println(origin.compareTo(p2));
+        System.out.println(origin.compareTo(p3));
+        System.out.println(origin.compareTo(p4));
+
+        Point p5 = new Point(10, 1);
+        Point p6 = new Point(10, -3);
+        Point p7 = new Point(-10, 4);
+        Point p8 = new Point(-10, -7);
+
+        System.out.println(origin.slopeTo(origin));
+        System.out.println(origin.slopeTo(p1));
+        System.out.println(origin.slopeTo(p2));
+        System.out.println(origin.slopeTo(p3));
+        System.out.println(origin.slopeTo(p4));
+        System.out.println(origin.slopeTo(p5));
+        System.out.println(origin.slopeTo(p6));
+        System.out.println(origin.slopeTo(p7));
+        System.out.println(origin.slopeTo(p8));
+
+        Comparator<Point> ptComp = origin.slopeOrder();
+
+        System.out.println(ptComp.compare(origin, origin));
+        System.out.println(ptComp.compare(p5, p6));
+        System.out.println(ptComp.compare(p5, p8));
     }
 }
